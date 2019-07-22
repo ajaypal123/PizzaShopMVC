@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PizzaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LoginTable">
+          <Key>
+            <PropertyRef Name="User_id" />
+          </Key>
+          <Property Name="User_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nchar" MaxLength="10" />
+          <Property Name="password" Type="nchar" MaxLength="10" />
+          <Property Name="reg_id" Type="int" />
+        </EntityType>
+        <EntityType Name="pizza">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="B_id" Type="int" />
+          <Property Name="onions" Type="nchar" MaxLength="10" />
+          <Property Name="capsicum" Type="nchar" MaxLength="10" />
+          <Property Name="chicken" Type="nchar" MaxLength="10" />
+          <Property Name="beef" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Reg">
+          <Key>
+            <PropertyRef Name="reg_id" />
+          </Key>
+          <Property Name="reg_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+          <Property Name="Age" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="sauce">
+          <Key>
+            <PropertyRef Name="B_id" />
+          </Key>
+          <Property Name="B_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sauce" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_LoginTable_Reg">
+          <End Role="Reg" Type="Self.Reg" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LoginTable" Type="Self.LoginTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reg">
+              <PropertyRef Name="reg_id" />
+            </Principal>
+            <Dependent Role="LoginTable">
+              <PropertyRef Name="reg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pizza_sauce">
+          <End Role="sauce" Type="Self.sauce" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pizza" Type="Self.pizza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sauce">
+              <PropertyRef Name="B_id" />
+            </Principal>
+            <Dependent Role="pizza">
+              <PropertyRef Name="B_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PizzaModelStoreContainer">
+          <EntitySet Name="LoginTable" EntityType="Self.LoginTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pizza" EntityType="Self.pizza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reg" EntityType="Self.Reg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sauce" EntityType="Self.sauce" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LoginTable_Reg" Association="Self.FK_LoginTable_Reg">
+            <End Role="Reg" EntitySet="Reg" />
+            <End Role="LoginTable" EntitySet="LoginTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pizza_sauce" Association="Self.FK_pizza_sauce">
+            <End Role="sauce" EntitySet="sauce" />
+            <End Role="pizza" EntitySet="pizza" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PizzaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LoginTable">
+          <Key>
+            <PropertyRef Name="User_id" />
+          </Key>
+          <Property Name="User_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="reg_id" Type="Int32" />
+          <NavigationProperty Name="Reg" Relationship="Self.FK_LoginTable_Reg" FromRole="LoginTable" ToRole="Reg" />
+        </EntityType>
+        <EntityType Name="pizza">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="B_id" Type="Int32" />
+          <Property Name="onions" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="capsicum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="chicken" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="beef" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="sauce" Relationship="Self.FK_pizza_sauce" FromRole="pizza" ToRole="sauce" />
+        </EntityType>
+        <EntityType Name="Reg">
+          <Key>
+            <PropertyRef Name="reg_id" />
+          </Key>
+          <Property Name="reg_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Age" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="LoginTables" Relationship="Self.FK_LoginTable_Reg" FromRole="Reg" ToRole="LoginTable" />
+        </EntityType>
+        <EntityType Name="sauce">
+          <Key>
+            <PropertyRef Name="B_id" />
+          </Key>
+          <Property Name="B_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sauce1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="pizzas" Relationship="Self.FK_pizza_sauce" FromRole="sauce" ToRole="pizza" />
+        </EntityType>
+        <Association Name="FK_LoginTable_Reg">
+          <End Role="Reg" Type="Self.Reg" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LoginTable" Type="Self.LoginTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reg">
+              <PropertyRef Name="reg_id" />
+            </Principal>
+            <Dependent Role="LoginTable">
+              <PropertyRef Name="reg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pizza_sauce">
+          <End Role="sauce" Type="Self.sauce" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="pizza" Type="Self.pizza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sauce">
+              <PropertyRef Name="B_id" />
+            </Principal>
+            <Dependent Role="pizza">
+              <PropertyRef Name="B_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PizzaEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LoginTables" EntityType="Self.LoginTable" />
+          <EntitySet Name="pizzas" EntityType="Self.pizza" />
+          <EntitySet Name="Regs" EntityType="Self.Reg" />
+          <EntitySet Name="sauces" EntityType="Self.sauce" />
+          <AssociationSet Name="FK_LoginTable_Reg" Association="Self.FK_LoginTable_Reg">
+            <End Role="Reg" EntitySet="Regs" />
+            <End Role="LoginTable" EntitySet="LoginTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pizza_sauce" Association="Self.FK_pizza_sauce">
+            <End Role="sauce" EntitySet="sauces" />
+            <End Role="pizza" EntitySet="pizzas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PizzaModelStoreContainer" CdmEntityContainer="PizzaEntities3">
+          <EntitySetMapping Name="LoginTables">
+            <EntityTypeMapping TypeName="PizzaModel.LoginTable">
+              <MappingFragment StoreEntitySet="LoginTable">
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pizzas">
+            <EntityTypeMapping TypeName="PizzaModel.pizza">
+              <MappingFragment StoreEntitySet="pizza">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="B_id" ColumnName="B_id" />
+                <ScalarProperty Name="onions" ColumnName="onions" />
+                <ScalarProperty Name="capsicum" ColumnName="capsicum" />
+                <ScalarProperty Name="chicken" ColumnName="chicken" />
+                <ScalarProperty Name="beef" ColumnName="beef" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regs">
+            <EntityTypeMapping TypeName="PizzaModel.Reg">
+              <MappingFragment StoreEntitySet="Reg">
+                <ScalarProperty Name="reg_id" ColumnName="reg_id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sauces">
+            <EntityTypeMapping TypeName="PizzaModel.sauce">
+              <MappingFragment StoreEntitySet="sauce">
+                <ScalarProperty Name="B_id" ColumnName="B_id" />
+                <ScalarProperty Name="sauce1" ColumnName="sauce" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

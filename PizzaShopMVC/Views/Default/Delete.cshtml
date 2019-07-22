@@ -1,0 +1,69 @@
+﻿@model PizzaShopMVC.Models.pizza
+
+@{
+    ViewBag.Title = "Delete";
+}
+<body style="background-image:url(https://www.wallpapersbyte.com/wp-content/uploads/2015/09/Pizza-Food-Cheese-Pieces-WallpapersByte-com-1366x768.jpg);">
+
+    <div class="jumbotron">
+        <h2>Delete</h2>
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <h4>pizza</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.B_id)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.B_id)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.onions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.onions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.capsicum)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.capsicum)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.chicken)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.chicken)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.beef)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.beef)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+    </body>
